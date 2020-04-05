@@ -4,18 +4,18 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Display from "./Display";
 
-function DisplayBlock() {
+function DisplayBlock(props) {
     return (
         <div>
           <Container >
               <Row>
                  <Col>
-                   <Display content="Expression" />
+                   <Display content={props.expression} />
                  </Col>
               </Row>
               <Row>
                   <Col id="display" >
-                      <Display content="Current value" />
+                      <Display content={props.currentValue} />
                   </Col>
               </Row>
           </Container>

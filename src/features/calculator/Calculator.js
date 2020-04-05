@@ -6,23 +6,33 @@ import DisplayBlock from "./DisplayBlock";
 import './Calculator.css'
 import OpsPad from "./OpsPad";
 import NumPad from "./NumPad";
+import {useSelector} from 'react-redux';
+import {
+    selectCurrentValue,
+    selectExpression
+} from "./calculatorSlice";
 
 function Calculator() {
+    const expression = useSelector(selectExpression);
+    const currentValue = useSelector(selectCurrentValue);
 
-    return(
+    return (
         <div>
             <Container className="main">
                 <Row>
                     <Col>
-                       <DisplayBlock />
+                        <DisplayBlock
+                            expression={expression}
+                            currentValue={currentValue}
+                        />
                     </Col>
                 </Row>
                 <Row>
                     <Col xs="9">
-                        <NumPad />
+                        <NumPad/>
                     </Col>
                     <Col>
-                        <OpsPad />
+                        <OpsPad/>
                     </Col>
                 </Row>
             </Container>

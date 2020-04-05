@@ -1,44 +1,43 @@
 import React from "react";
 import {Button, Container, Row} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
+import { useDispatch } from 'react-redux';
+import  {addOperation} from './calculatorSlice';
 
 function OpsPad() {
+    const dispatch = useDispatch();
     let keys = [
         {
             id: "add",
-            value: "+",
-            action: {}
+            value: "+"
         },
         {
             id: "subtract",
-            value: "-",
-            action: {}
+            value: "-"
         },
         {
             id: "multiply",
-            value: "*",
-            action: {}
+            value: "*"
         },
         {
             id: "divide",
-            value: "/",
-            action: {}
+            value: "/"
         },
         {
             id: "equals",
-            value: "=",
-            action: {}
+            value: "="
         }
     ];
 
     let keyPad = keys.map(key =>
-        <Row>
+        <Row key={key.id}>
             <Col>
                 <Button
                     id={key.id}
                     variant="outline-warning"
                     size="lg"
                     block
+                    onClick={() => dispatch(addOperation(key.value))}
                 >
                     {key.value}
                 </Button>
