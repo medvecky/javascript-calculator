@@ -1,5 +1,5 @@
 function addNumberToExpression(state, action) {
-    if (state.expression === '0' || isCompletedEexpression(state)) {
+    if (state.expression === '0' || isCompletedExpression(state)) {
         if (action.payload !== '0') {
             state.expression = action.payload;
         }
@@ -36,13 +36,13 @@ function handleOperation(state, action) {
     }
 }
 
-function isCompletedEexpression(state) {
+function isCompletedExpression(state) {
     let pattern = new RegExp('.+=-?\\d+')
     return pattern.test(state.expression);
 }
 
 function handleNumber(state, action) {
-    if (isCompletedEexpression(state)) {
+    if (isCompletedExpression(state)) {
         state.expression = '0';
         state.currentValue = '0';
         addNumberToExpression(state, action);
