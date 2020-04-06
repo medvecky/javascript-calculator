@@ -6,7 +6,8 @@ import Button from "react-bootstrap/Button";
 import { useDispatch } from 'react-redux';
 import {
     clear,
-    addNumber
+    addNumber,
+    addDecimal
 } from './calculatorSlice';
 
 function NumPad() {
@@ -105,6 +106,7 @@ function NumPad() {
                         variant="outline-info"
                         block
                         size="lg"
+                        onClick={() => dispatch(addDecimal())}
                     >
                         .
                     </Button>

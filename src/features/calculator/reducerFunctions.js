@@ -20,25 +20,66 @@ function addNumberToCurrentValue(state, action) {
 }
 
 function handleOperation(state, action) {
-    if (state.currentValue !== action.payload) {
+    if (action.payload === '-') {
+        handleMinus(state, action);
+    } else if (state.currentValue !== action.payload) {
         if ("*/+-=".includes(state.currentValue)) {
-            state.expression = state.expression.slice(0, -1);
+            if (!isMinusValid(state)) {
+                state.expression = state.expression.slice(0, -3);
+            } else {
+                state.expression = state.expression.slice(0, -1);
+            }
         }
         state.expression += action.payload;
         if (action.payload === '=') {
-            let expression = state.expression = state.expression.slice(0, -1);
-            let result = eval(expression);
-            state.expression += '=' + result;
-            state.currentValue = result;
+            evaluate(state);
+            handleExpressionsChain(state);
         } else {
             state.currentValue = action.payload;
         }
     }
 }
 
+function handleMinus(state, action) {
+    if (state.expression === '0') {
+        state.expression = action.payload;
+        state.currentValue = action.payload;
+    } else if (isNumeric(state.currentValue)) {
+        state.expression += action.payload;
+        state.currentValue = action.payload;
+    } else if (isMinusValid(state)) {
+        state.expression += ' ' + action.payload;
+        state.currentValue = action.payload;
+    }
+}
+
+function isMinusValid(state) {
+    let pattern = new RegExp('[-\/*+] -$')
+    return !pattern.test(state.expression);
+}
+
+function handleExpressionsChain(state) {
+    if(state.expression.includes('=')) {
+        state.expression = state.currentValue;
+    }
+}
+
 function isCompletedExpression(state) {
     let pattern = new RegExp('.+=-?\\d+')
     return pattern.test(state.expression);
+}
+
+function isNumeric(num) {
+    return !isNaN(num)
+}
+
+function evaluate(state) {
+    let expression = state.expression = state.expression.slice(0, -1);
+    if (!expression.includes('=')) {
+        let result = eval(expression).toString();
+        state.expression += '=' + result;
+        state.currentValue = result;
+    }
 }
 
 function handleNumber(state, action) {

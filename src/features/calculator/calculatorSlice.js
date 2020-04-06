@@ -20,11 +20,17 @@ export const slice = createSlice({
         },
         addOperation: (state, action) => {
             handleOperation(state, action);
+        },
+        addDecimal: state => {
+            if(!state.currentValue.includes('.')) {
+                state.currentValue += '.';
+                state.expression += '.';
+            }
         }
     },
 });
 
-export const {clear, addNumber, addOperation} = slice.actions;
+export const {clear, addNumber, addOperation, addDecimal} = slice.actions;
 
 export const selectExpression = state => state.calculator.expression;
 export const selectCurrentValue = state => state.calculator.currentValue;
