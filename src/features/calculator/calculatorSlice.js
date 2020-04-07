@@ -1,7 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {
     handleNumber,
-    handleOperation
+    handleOperation,
+    handleDecimal
 } from './reducerFunctions';
 
 export const slice = createSlice({
@@ -22,10 +23,7 @@ export const slice = createSlice({
             handleOperation(state, action);
         },
         addDecimal: state => {
-            if(!state.currentValue.includes('.')) {
-                state.currentValue += '.';
-                state.expression += '.';
-            }
+            handleDecimal(state);
         }
     },
 });

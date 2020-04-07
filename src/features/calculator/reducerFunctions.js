@@ -92,4 +92,16 @@ function handleNumber(state, action) {
     }
 }
 
-export {handleNumber, handleOperation};
+function handleDecimal(state) {
+    if (!state.currentValue.includes('.')) {
+        if ("*/+-=".includes(state.currentValue)) {
+            state.currentValue = '0.';
+            state.expression += '0.';
+        } else {
+            state.currentValue += '.';
+            state.expression += '.';
+        }
+    }
+}
+
+export {handleNumber, handleOperation, handleDecimal};
