@@ -107,8 +107,14 @@ function handleDecimal(state) {
             state.currentValue = '0.';
             state.expression += '0.';
         } else {
-            state.currentValue += '.';
-            state.expression += '.';
+            if (state.expression === 'Infinity'
+                || state.expression === 'NaN') {
+                state.currentValue = '0.';
+                state.expression = '0.';
+            } else {
+                state.currentValue += '.';
+                state.expression += '.';
+            }
         }
     }
 }
