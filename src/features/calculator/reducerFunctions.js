@@ -11,9 +11,7 @@ function addNumberToExpression(state, action) {
 function addNumberToCurrentValue(state, action) {
     if (state.currentValue === '0'
         || "*/+-=".includes(state.currentValue)) {
-        if (action.payload !== '0') {
-            state.currentValue = action.payload;
-        }
+        state.currentValue = action.payload;
     } else {
         state.currentValue += action.payload;
     }
@@ -59,7 +57,7 @@ function isMinusValid(state) {
 }
 
 function handleExpressionsChain(state) {
-    if(state.expression.includes('=')) {
+    if (state.expression.includes('=')) {
         state.expression = state.currentValue;
     }
 }
