@@ -28,7 +28,12 @@ function handleOperation(state, action) {
                 state.expression = state.expression.slice(0, -1);
             }
         }
-        state.expression += action.payload;
+        if (state.expression === 'Infinity'
+            || state.expression === 'NaN') {
+            state.expression = '0' + action.payload;
+        } else {
+            state.expression += action.payload;
+        }
         if (action.payload === '=') {
             evaluate(state);
             handleExpressionsChain(state);
@@ -39,7 +44,9 @@ function handleOperation(state, action) {
 }
 
 function handleMinus(state, action) {
-    if (state.expression === '0') {
+    if (state.expression === '0'
+        || state.expression === 'Infinity'
+        || state.expression === 'NaN') {
         state.expression = action.payload;
         state.currentValue = action.payload;
     } else if (isNumeric(state.currentValue)) {
@@ -64,7 +71,9 @@ function handleExpressionsChain(state) {
 
 function isCompletedExpression(state) {
     let pattern = new RegExp('.+=-?\\d+')
-    return pattern.test(state.expression);
+    return pattern.test(state.expression)
+        || state.expression === 'Infinity'
+        || state.expression === 'NaN';
 }
 
 function isNumeric(num) {
